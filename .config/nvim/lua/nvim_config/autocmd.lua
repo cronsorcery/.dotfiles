@@ -17,6 +17,12 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 vim.api.nvim_create_autocmd("BufWritePre", {
     pattern = "*",
     callback = function(_)
+        local filetype_exclusions = { "html" }
+        for _, value in ipairs(filetype_exclusions) do
+            if vim.bo.filetype == value then
+                return
+            end
+        end
         vim.lsp.buf.format({ async = false })
     end,
     group = group,

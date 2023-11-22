@@ -30,85 +30,28 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end
 })
 
--- https://github.com/hrsh7th/nvim-cmp
-local cmp = require('cmp')
-cmp.setup({
-    snippet = {
-        expand = function(args)
-            require('luasnip').lsp_expand(args.body)
-        end,
-    },
-    window = {
-        -- Completion pop-up window style
-        -- completion = cmp.config.window.bordered(),
-        -- documentation = cmp.config.window.bordered(),
-    },
-    mapping = cmp.mapping.preset.insert({
-        ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-        ['<C-f>'] = cmp.mapping.scroll_docs(4),
-        ['<C-c>'] = cmp.mapping.complete(),
-        ['<C-e>'] = cmp.mapping.abort(),
-        ['<CR>'] = cmp.mapping.confirm({ select = true }),
-    }),
-    sources = cmp.config.sources({
-        { name = 'nvim_lsp' },
-        { name = 'luasnip' },  -- https://github.com/saadparwaiz1/cmp_luasnip
-        { name = 'nvim_lua' }, -- https://github.com/hrsh7th/cmp-nvim-lua
-        { name = 'buffer' },   -- https://github.com/hrsh7th/cmp-buffer
-        { name = 'path' },     -- https://github.com/hrsh7th/cmp-path
-        { name = 'git' },      -- https://github.com/petertriho/cmp-git
-    }),
-})
-
--- https://github.com/hrsh7th/cmp-cmdline
--- `:` cmdline setup.
-cmp.setup.cmdline(':', {
-    mapping = cmp.mapping.preset.cmdline(),
-    sources = cmp.config.sources({
-        { name = 'path' }
-    }, {
-        {
-            name = 'cmdline',
-            option = {
-                ignore_cmds = { 'Man', '!' },
-            },
-        },
-    })
-})
-
-require('cmp_git').setup({
-    github = {
-        hosts = { 'github.com' },
-    },
-    gitlab = {
-        hosts = {},
-    },
-})
-
 local lspconfig = require('lspconfig')
-local default_capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 require('mason').setup()
 require('mason-lspconfig').setup({
     ensure_installed = {
-        -- LSPs
         'lua_ls',
-        'terraformls',
         'bashls',
         'pyright',
         'gopls',
-        -- 'yamlls',
-        'ansiblels',
         'sqlls',
-        'dockerls',
         'html',
-        -- 'tailwindcss',
+        'tailwindcss',
+        'dockerls',
+        'yamlls',
+        'ansiblels',
         'bicep',
+        'terraformls',
     },
     handlers = {
         function(server_name)
             lspconfig[server_name].setup({
-                capabilities = default_capabilities
+                capabilities = require('cmp_nvim_lsp').default_capabilities()
             })
         end,
         ['lua_ls'] = function()
@@ -149,13 +92,3 @@ vim.diagnostic.config({
         prefix = '!> ',
     },
 })
-
--- If lsp acts up, use:
--- local lspconfig = require('lspconfig')
--- local get_servers = require('mason-lspconfig').get_installed_servers
-
--- for _, server_name in ipairs(get_servers()) do
---   lspconfig[server_name].setup({
---     capabilities = lsp_capabilities,
---   })
--- end

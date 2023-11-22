@@ -7,9 +7,6 @@ opt.ignorecase = true
 opt.incsearch = true
 opt.smartcase = true
 
--- Left side of editor
-opt.relativenumber = true
-opt.signcolumn = 'yes'
 
 -- Tabline & buffers
 opt.showtabline = 2
@@ -25,14 +22,16 @@ opt.fillchars = {
 }
 
 -- Interface & display
-opt.mouse = 'a'
+opt.mouse:append('a')
 opt.clipboard = "unnamedplus"
 opt.lazyredraw = false
 opt.termguicolors = true
 opt.pumheight = 10
 opt.cmdheight = 1
 opt.scrolloff = 8
-opt.colorcolumn = "79"
+opt.colorcolumn = '79'
+opt.signcolumn = 'yes'
+opt.relativenumber = true
 opt.backspace = { 'indent', 'eol', 'start' }
 
 -- Indentation
@@ -40,6 +39,7 @@ opt.tabstop = 4
 opt.softtabstop = 4
 opt.shiftwidth = 4
 opt.expandtab = true -- 4 spaces
+opt.wrap = false
 
 -- Save state
 opt.swapfile = false
@@ -50,8 +50,8 @@ opt.updatetime = 100
 
 
 -- Misc
-opt.exrc = false     -- *Security feature*
-opt.autochdir = true -- see, personally, I like the mobility
+opt.exrc = false -- *Security feature*
+opt.autochdir = true
 opt.listchars = { space = '_', trail = '·', tab = '»·' }
 
 -- Try to remember that `:TOHtml` is a thing

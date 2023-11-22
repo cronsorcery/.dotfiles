@@ -4,7 +4,7 @@
 -------------------------------------------------------------------
 
 -- Only required if you have packer configured as `opt`
-vim.cmd [[packadd packer.nvim]]
+vim.cmd([[packadd packer.nvim]])
 
 return require('packer').startup(
     function(use)
@@ -37,21 +37,18 @@ return require('packer').startup(
         -- Comments
         use('tpope/vim-commentary')
 
-        -- Packages
-        use('williamboman/mason.nvim')
-
         -- Language servers
-        use('williamboman/mason-lspconfig.nvim')
         use('neovim/nvim-lspconfig')
 
-        -- Autocompletion
-        use('hrsh7th/cmp-nvim-lsp')
+        -- Packages
+        use('williamboman/mason.nvim')
+        use('williamboman/mason-lspconfig.nvim')
+
+        -- Hints
         use('hrsh7th/nvim-cmp')
-        use('hrsh7th/cmp-buffer')
-        use('hrsh7th/cmp-path')
-        use('hrsh7th/cmp-cmdline')
-        use('hrsh7th/cmp-nvim-lua')
-        use({ 'petertriho/cmp-git', requires = 'nvim-lua/plenary.nvim' })
-        -- use('Jezda1337/cmp_bootstrap')
-        use({ 'saadparwaiz1/cmp_luasnip', requires = 'L3MON4D3/LuaSnip' })
+        -- nvim-cmp sources
+        use('hrsh7th/cmp-nvim-lsp')
+        use('L3MON4D3/LuaSnip')
+        use('hrsh7th/cmp-calc')
+        use('hrsh7th/cmp-nvim-lsp-signature-help')
     end)
