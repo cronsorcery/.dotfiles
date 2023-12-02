@@ -2,7 +2,7 @@ local is_multibuffer = function()
     local buffers = vim.api.nvim_list_bufs()
     local n_loaded_buffers = 0
 
-    for _, buffer in ipairs(buffers) do
+    for _, buffer in pairs(buffers) do
         if vim.api.nvim_buf_is_loaded(buffer) then
             n_loaded_buffers = n_loaded_buffers + 1
         end
@@ -10,7 +10,6 @@ local is_multibuffer = function()
             return true
         end
     end
-
     return false
 end
 -- leader is SPACE
@@ -41,7 +40,29 @@ vim.keymap.set("v", "<leader>s", vim.fn.expand([[
     :s///cgI<Left><Left><Left><Left><Left>]]))
 
 
--- Multiple window navigation
+-- Leadrer+S surround string with pairs
+-- TODO: This actually crashes the editor lmao (0.10.0-dev)
+vim.keymap.set("v", "<leader>S", function()
+    vim.ui.select({ '""', "''", "()", "{}" },
+        {
+            prompt = "Select surrounding characters:",
+        },
+        function(choice)
+            if #choice > 2 then
+                print("Pairs with elements longer than 1 character not supported")
+                return
+            end
+
+            local choice_pair = {}
+            for p in choice:gmatch(".") do table.insert(choice_pair, p) end
+            -- ':<,'>s/\(\%V.*\%V.\)/"\1"/
+            local command = string.format([[s/\(\%%V.*\%%V.\)/%s\1%s/]],
+                choice_pair[1],
+                choice_pair[2])
+            vim.cmd(command)
+        end)
+end)
+
 vim.keymap.set("n", "<C-h>", "<C-w>h")
 vim.keymap.set("n", "<C-j>", "<C-w>j")
 vim.keymap.set("n", "<C-k>", "<C-w>k")

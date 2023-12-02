@@ -16,17 +16,18 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 
 vim.api.nvim_create_autocmd("BufWritePre", {
     pattern = "*",
-    callback = function(_)
-        local filetype_exclusions = { "html" }
-        for _, value in ipairs(filetype_exclusions) do
-            if vim.bo.filetype == value then
-                return
-            end
-        end
-        vim.lsp.buf.format({ async = false })
-    end,
     group = group,
-    desc = "Run formatter on save"
+    desc = "Run formatter on save",
+    callback = function(_)
+        vim.lsp.buf.format({
+            options = { insertFinalNewline = true, trimFinalNewlines = true },
+            filter = function(client)
+                return client.name ~= "html"
+                    and client.name ~= "tsserver"
+            end,
+            async = false
+        })
+    end,
 })
 
 vim.api.nvim_create_autocmd("FileType", {
@@ -36,9 +37,20 @@ vim.api.nvim_create_autocmd("FileType", {
     desc = "Set tabs as default in some files"
 })
 
+-- vim.api.nvim_create_autocmd("FileType", {
+--     pattern = { ".*html", "*.css", "*.js", "*.ts" },
+--     command = "setlocal shiftwidth=2 tabstop=2 noexpandtab softtabstop=0",
+--     group = group,
+--     desc = "Set tabs to width 2 in web stuff"
+-- })
+
 vim.api.nvim_create_autocmd("FileType", {
-    pattern = { ".*html", "*.css", "*.js", "*.ts" },
-    command = "setlocal shiftwidth=2 tabstop=2 noexpandtab softtabstop=0",
+    pattern = { "haskell", "lhaskell" },
+    callback = function()
+        vim.opt_local.expandtab = true
+        vim.opt_local.shiftwidth = 2
+        vim.opt_local.tabstop = 2
+    end,
     group = group,
-    desc = "Set tabs to width 2 in web stuff"
+    desc = "Haskell uses 2 spaces apparently"
 })

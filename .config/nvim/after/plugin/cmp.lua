@@ -1,21 +1,27 @@
 local cmp = require('cmp')
--- local luasnip = require('luasnip')
+local luasnip = require('luasnip')
 
 cmp.setup({
     snippet = {
         expand = function(args)
-            require('luasnip').lsp_expand(args.body)
+            luasnip.lsp_expand(args.body)
         end,
     },
     sources = cmp.config.sources({
-            { name = 'nvim_lsp' },
-            { name = 'luasnip',                option = { use_show_condition = false, show_autosnippets = true } },
-            { name = 'calc' },
-            { name = 'nvim_lsp_signature_help' },
-        },
+        { name = 'nvim_lsp' },
         {
-            { name = 'buffer' },
-        }),
+            name = 'luasnip',
+            option = {
+                use_show_condition = false,
+                show_autosnippets = true
+            }
+        },
+        { name = 'nvim_lua' },
+        { name = 'calc' },
+        { name = 'nvim_lsp_signature_help' },
+        { name = 'path' },
+        -- { name = 'buffer' },
+    }),
     window = {
         completion = cmp.config.window.bordered(),
         documentation = cmp.config.window.bordered(),

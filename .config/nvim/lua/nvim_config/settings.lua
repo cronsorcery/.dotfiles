@@ -20,8 +20,6 @@ opt.fillchars = {
     stl = ' ',   -- current window statusline
     stlnc = '=', -- non-current window statusline
 }
-
--- Interface & display
 opt.mouse:append('a')
 opt.clipboard = "unnamedplus"
 opt.lazyredraw = false
@@ -33,13 +31,15 @@ opt.colorcolumn = '79'
 opt.signcolumn = 'yes'
 opt.relativenumber = true
 opt.backspace = { 'indent', 'eol', 'start' }
+opt.foldcolumn = 'auto'
+opt.guicursor = 'n-v-c-sm-i-ci:block,ve:ver25,r-cr-o:hor20'
 
 -- Indentation
 opt.tabstop = 4
 opt.softtabstop = 4
 opt.shiftwidth = 4
 opt.expandtab = true -- 4 spaces
-opt.wrap = false
+opt.wrap = true
 
 -- Save state
 opt.swapfile = false

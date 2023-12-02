@@ -39,11 +39,14 @@ require('mason-lspconfig').setup({
         'bashls',
         'pyright',
         'gopls',
+        'hls',
         'sqlls',
         'html',
         'tailwindcss',
+        'tsserver',
         'dockerls',
         'yamlls',
+        'azure_pipelines_ls',
         'ansiblels',
         'bicep',
         'terraformls',
@@ -61,6 +64,12 @@ require('mason-lspconfig').setup({
                         diagnostics = {
                             globals = { 'vim' },
                         },
+                        workspace = {
+                            library = {
+                                [vim.fn.expand('$VIMRUNTIME/lua')] = true,
+                                [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
+                            },
+                        },
                     },
                 },
             })
@@ -70,6 +79,21 @@ require('mason-lspconfig').setup({
                 settings = {
                     bashIde = {
                         shellcheckArguments = '--enable=all',
+                    },
+                },
+            })
+        end,
+        -- Real ominous type shit config
+        ['azure_pipelines_ls'] = function()
+            lspconfig.azure_pipelines_ls.setup({
+                settings = {
+                    yaml = {
+                        schemas = {
+                            ["https://raw.githubusercontent.com/Microsoft/azure-pipelines-vscode/main/service-schema.json"] = {
+                                "/azure-pipeline*.y*l",
+                                "/*.azure*",
+                            },
+                        },
                     },
                 },
             })

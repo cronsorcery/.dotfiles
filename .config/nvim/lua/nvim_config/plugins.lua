@@ -13,9 +13,13 @@ return require('packer').startup(
         -- Fuzzy search
         use({
             'nvim-telescope/telescope.nvim',
-            tag = '0.1.2',
+            tag = '0.1.4',
             -- branch = '0.1.x',
-            requires = { { 'nvim-lua/plenary.nvim' } }
+            requires = {
+                { 'nvim-lua/plenary.nvim' },
+                { 'BurntSushi/ripgrep',          opt = true },
+                { 'nvim-tree/nvim-web-devicons', opt = true },
+            }
         })
 
         -- Colorscheme
@@ -25,6 +29,11 @@ return require('packer').startup(
             config = function()
                 vim.cmd('colorscheme rose-pine')
             end
+        })
+
+        use({
+            'nvim-lualine/lualine.nvim',
+            requires = { 'nvim-tree/nvim-web-devicons', opt = true },
         })
 
         -- Parser
@@ -44,11 +53,14 @@ return require('packer').startup(
         use('williamboman/mason.nvim')
         use('williamboman/mason-lspconfig.nvim')
 
-        -- Hints
+        -- Completion
         use('hrsh7th/nvim-cmp')
         -- nvim-cmp sources
-        use('hrsh7th/cmp-nvim-lsp')
-        use('L3MON4D3/LuaSnip')
-        use('hrsh7th/cmp-calc')
-        use('hrsh7th/cmp-nvim-lsp-signature-help')
+        use('hrsh7th/cmp-nvim-lsp')                -- lsp completions
+        use('hrsh7th/cmp-buffer')                  -- buffer words
+        use('hrsh7th/cmp-path')                    -- paths
+        use('L3MON4D3/LuaSnip')                    -- snippet engine
+        use('hrsh7th/cmp-calc')                    -- calculator
+        use('hrsh7th/cmp-nvim-lsp-signature-help') -- function signatures
+        use('hrsh7th/cmp-nvim-lua')                -- qol ricing
     end)
