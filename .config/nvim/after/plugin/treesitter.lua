@@ -26,10 +26,9 @@ require("nvim-treesitter.configs").setup({
         -- disable = { "c", "rust" },
         -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
         disable = function(lang, buf)
-            _ = lang
-            local max_filesize = 1000 * 1024 -- 1000 KB or 1 MB
+            local max_filesize = 1000 * 1024                  -- 1000 KB or 1 MB
             local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-            return ok and stats and stats.size > max_filesize
+            return ok and stats and stats.size > max_filesize -- or lang == "bicep"
         end,
 
         -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
@@ -38,6 +37,11 @@ require("nvim-treesitter.configs").setup({
         -- Instead of true it can also be a list of languages
         additional_vim_regex_highlighting = false,
     },
+
+    indent = {
+        enable = true
+    },
+
     incremental_selection = {
         enable = true,
         keymaps = {
@@ -48,3 +52,13 @@ require("nvim-treesitter.configs").setup({
         },
     },
 })
+
+local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+parser_config.bicep = {
+    install_info = {
+        -- url = "~/Git/Thirdparty/tree-sitter-bicep",
+        url = "https://github.com/cronsorcery/tree-sitter-bicep",
+        files = { "src/parser.c" },
+    },
+    filetype = "bicep"
+}
