@@ -44,7 +44,7 @@ opt.wrap = true
 opt.swapfile = false
 opt.backup = false
 opt.undofile = true
-opt.undodir = os.getenv("HOME") .. "/.local/share/nvim/undodir/"
+opt.undodir = os.getenv("HOME") or os.getenv("LOCALAPPDATA") .. "/.local/share/nvim/undodir/"
 opt.updatetime = 100
 
 -- Misc
