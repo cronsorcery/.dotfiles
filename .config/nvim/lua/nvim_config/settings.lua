@@ -2,7 +2,8 @@ local opt = vim.opt
 local global = vim.g
 
 -- Search
-opt.hlsearch = false
+opt.hlsearch = true
+vim.keymap.set("n", "<ESC>", ":nohlsearch<CR>", { silent = true })
 opt.ignorecase = true
 opt.incsearch = true
 opt.smartcase = true
